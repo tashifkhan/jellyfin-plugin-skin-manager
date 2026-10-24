@@ -8,6 +8,40 @@ export default function (view) {
     var skins = [];
     var busy = false;
 
+    // Jellyfin 12 keeps its query cache in IndexedDB and reuses Branding CSS
+    // for up to a minute after a reload. Drop that entry so Home fetches the new skin.
+    function forgetCachedBranding() {
+        return new Promise(function (resolve) {
+            var open = indexedDB.open('keyval-store');
+            open.onerror = function () { resolve(); };
+            open.onsuccess = function () {
+                var db = open.result;
+                if (!db.objectStoreNames.contains('keyval')) {
+                    db.close();
+                    resolve();
+                    return;
+                }
+                var tx = db.transaction('keyval', 'readwrite');
+                var store = tx.objectStore('keyval');
+                var get = store.get('jellyfin-query-cache');
+                get.onsuccess = function () {
+                    var cache = get.result;
+                    var queries = cache && cache.clientState && cache.clientState.queries;
+                    if (Array.isArray(queries)) {
+                        cache.clientState.queries = queries.filter(function (query) {
+                            return !(query.queryKey && query.queryKey[0] === 'BrandingOptions');
+                        });
+                        store.put(cache, 'jellyfin-query-cache');
+                    }
+                };
+                tx.oncomplete = tx.onerror = tx.onabort = function () {
+                    db.close();
+                    resolve();
+                };
+            };
+        });
+    }
+
     function describeSkin() {
         var skin = skins.find(function (item) { return item.defaultCss === select.value; });
         description.textContent = skin ? skin.description : '';
@@ -63,8 +97,8 @@ export default function (view) {
         }
     }
 
-    view.querySelector('#taflixSkinsForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
+    async function applySkin(event) {
+        if (event) event.preventDefault();
         if (busy || submit.disabled) return;
         busy = true;
         select.disabled = true;
@@ -81,7 +115,10 @@ export default function (view) {
             config.selectedSkin = skin.defaultCss;
             config.options = [];
             await ApiClient.updatePluginConfiguration(pluginId, config);
-            status.textContent = skin.name + ' applied. Reload the web app to see the skin.';
+            status.textContent = skin.name + ' saved. Opening Home...';
+            await forgetCachedBranding();
+            window.location.hash = '/home';
+            window.location.reload();
         } catch (error) {
             status.textContent = 'Could not finish saving the skin. Check Branding CSS and try again.';
             console.error('taflix Skins could not save', error);
@@ -91,8 +128,12 @@ export default function (view) {
             submit.disabled = false;
             Dashboard.hideLoadingMsg();
         }
+    }
+    view.querySelector('#taflixSkinsForm').addEventListener('submit', applySkin);
+    select.addEventListener('change', function () {
+        describeSkin();
+        applySkin();
     });
-    select.addEventListener('change', describeSkin);
     retry.addEventListener('click', loadSkins);
     view.addEventListener('viewshow', loadSkins);
 }

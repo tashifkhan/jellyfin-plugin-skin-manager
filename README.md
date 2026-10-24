@@ -5,7 +5,14 @@ The build embeds `skins-taflix.json` in the DLL. Rebuild after editing the list.
 The settings page loads its controller and catalogue from Jellyfin, without
 jQuery, a Google Fonts API key, or a browser request to GitHub.
 
-Set Skin updates `branding.CustomCss` and saves the choice in the plugin config.
+Choosing a skin updates `branding.CustomCss`, saves the plugin config, and opens
+Home with the new skin. Set Skin reapplies the selected skin. Dashboard never
+loads Branding CSS, so the skin only shows outside it.
+
+Jellyfin 12 caches Branding CSS in IndexedDB and reuses it for a minute after a
+reload. The page deletes that cache entry before it reloads. Other browsers pick
+up the new skin on their first reload after the minute is up.
+
 Other branding settings stay intact. Loading and saving failures clear the
 spinner and display a message. Load failures also offer Retry.
 
