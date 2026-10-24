@@ -342,3 +342,6 @@ healthchecksdb
 
 # macOS
 .DS_Store
+
+# Published plugin output
+/out/
