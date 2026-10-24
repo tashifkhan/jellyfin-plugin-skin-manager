@@ -33,6 +33,8 @@ namespace Jellyfin.Plugin.SkinManager
                 new PluginPageInfo
                 {
                     Name = "SkinManager",
+                    DisplayName = "Skin Manager",
+                    EnableInMainMenu = true,
                     EmbeddedResourcePath = GetType().Namespace + ".Configuration.configurationpage.html"
                 },
                  new PluginPageInfo
