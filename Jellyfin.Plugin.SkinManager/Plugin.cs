@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Jellyfin.Plugin.SkinManager.Configuration;
 using MediaBrowser.Common.Configuration;
@@ -37,15 +37,15 @@ namespace Jellyfin.Plugin.SkinManager
                     EnableInMainMenu = true,
                     EmbeddedResourcePath = GetType().Namespace + ".Configuration.configurationpage.html"
                 },
-                 new PluginPageInfo
-                {
-                    Name = "fontpicker.js",
-                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.fontpicker.js"
-                }, 
                 new PluginPageInfo
                 {
-                    Name = "fontpicker.css",
-                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.jquery.fontpicker.min.css"
+                    Name = "taflix-skins.js",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.taflix-skins.js"
+                },
+                new PluginPageInfo
+                {
+                    Name = "taflix-skins.json",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.skins-taflix.json"
                 }
             };
         }

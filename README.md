@@ -1,3 +1,24 @@
+# taflix Skins
+
+This fork lists Abyss, Catppuccin Mocha, Latte, Frappe, Macchiato, and Netflix.
+The build embeds `skins-taflix.json` in the DLL. Rebuild after editing the list.
+The settings page loads its controller and catalogue from Jellyfin, without
+jQuery, a Google Fonts API key, or a browser request to GitHub.
+
+Set Skin updates `branding.CustomCss` and saves the choice in the plugin config.
+Other branding settings stay intact. Loading and saving failures clear the
+spinner and display a message. Load failures also offer Retry.
+
+Build with the .NET 9 SDK:
+
+```sh
+dotnet publish Jellyfin.Plugin.SkinManager -c Release -o out
+```
+
+This build was checked on Jellyfin 12.3. Back up the installed DLL and server
+configuration before replacing the DLL. Restart the Jellyfin container after
+installation. Theme CSS still loads from the hosts named in the catalogue.
+
 <h1 align="center">Jellyfin Skin Manager Plugin</h1>
 <h3 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h3>
 
