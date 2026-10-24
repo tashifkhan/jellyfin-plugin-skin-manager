@@ -33,7 +33,7 @@ namespace Jellyfin.Plugin.SkinManager
                 new PluginPageInfo
                 {
                     Name = "SkinManager",
-                    DisplayName = "Skin Manager",
+                    DisplayName = "taflix Skins",
                     EnableInMainMenu = true,
                     EmbeddedResourcePath = GetType().Namespace + ".Configuration.configurationpage.html"
                 },
