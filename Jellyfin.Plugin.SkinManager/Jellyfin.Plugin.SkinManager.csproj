@@ -9,6 +9,7 @@
     <PackageReference Include="Jellyfin.Controller" Version="10.11.0" />
     <EmbeddedResource Include="Configuration/configurationpage.html" />
     <EmbeddedResource Include="Configuration/taflix-skins.js" />
+    <EmbeddedResource Include="Configuration/taflix-netflix.css" />
     <EmbeddedResource Include="../skins-taflix.json" LogicalName="Jellyfin.Plugin.SkinManager.Configuration.skins-taflix.json" />
   </ItemGroup>
 </Project>

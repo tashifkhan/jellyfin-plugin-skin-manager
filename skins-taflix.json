@@ -66,9 +66,9 @@
   },
   {
     "name": "Netflix",
-    "author": "913AycltFM",
-    "description": "Netflix-style dark theme with red accents.",
-    "defaultCss": "@import url(\"https://cdn.jsdelivr.net/gh/913AycltFM/jellyfin-netflix-theme@9ed8232f99f0b8fb6707a64736e06ab9d6bcabe6/jellyfin-netflix-theme.css\");",
+    "author": "taflix",
+    "description": "Netflix layout: billboard title pages, hover rows, red player controls.",
+    "defaultCss": "@import url(\"ConfigurationPage?name=taflix-netflix.css&v=1\");",
     "previews": [],
     "categories": [
       {

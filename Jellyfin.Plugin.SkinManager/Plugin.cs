@@ -44,6 +44,11 @@ namespace Jellyfin.Plugin.SkinManager
                 },
                 new PluginPageInfo
                 {
+                    Name = "taflix-netflix.css",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.taflix-netflix.css"
+                },
+                new PluginPageInfo
+                {
                     Name = "taflix-skins.json",
                     EmbeddedResourcePath = GetType().Namespace + ".Configuration.skins-taflix.json"
                 }

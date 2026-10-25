@@ -16,6 +16,12 @@ up the new skin on their first reload after the minute is up.
 Other branding settings stay intact. Loading and saving failures clear the
 spinner and display a message. Load failures also offer Retry.
 
+Netflix is a full layout skin that ships inside the plugin as
+`taflix-netflix.css`. Jellyfin serves it at
+`/web/ConfigurationPage?name=taflix-netflix.css`, so it needs no outside host
+apart from the Bebas Neue font used for the wordmark. Bump the `v=` value in
+`skins-taflix.json` after editing the file so browsers fetch the new copy.
+
 Build with the .NET 9 SDK:
 
 ```sh
