@@ -68,7 +68,7 @@
     "name": "Netflix",
     "author": "taflix",
     "description": "Netflix layout: billboard title pages, hover rows, red player controls.",
-    "defaultCss": "@import url(\"ConfigurationPage?name=taflix-netflix.css&v=1\");",
+    "defaultCss": "@import url(\"ConfigurationPage?name=taflix-netflix.css&v=2\");",
     "previews": [],
     "categories": [
       {

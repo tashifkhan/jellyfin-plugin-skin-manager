@@ -742,6 +742,18 @@ body:has(#itemDetailPage:not(.hide)) .backgroundContainer.withBackdrop {
     background: transparent !important;
 }
 
+/* Backdrops are off by default in Jellyfin's display settings. Without an
+   image there is no billboard, so drop the space reserved for it. */
+.layout-desktop body:not(:has(.backdropImage[style*="url"])) #itemDetailPage .itemBackdrop:not([style*="url"]),
+.layout-tv body:not(:has(.backdropImage[style*="url"])) #itemDetailPage .itemBackdrop:not([style*="url"]) {
+    height: 2.5em !important;
+}
+
+.layout-desktop body:not(:has(.backdropImage[style*="url"])) #itemDetailPage:has(.itemBackdrop:not([style*="url"])) .detailPageWrapperContainer,
+.layout-tv body:not(:has(.backdropImage[style*="url"])) #itemDetailPage:has(.itemBackdrop:not([style*="url"])) .detailPageWrapperContainer {
+    margin-top: 0 !important;
+}
+
 .layout-desktop #itemDetailPage .detailPagePrimaryContainer,
 .layout-tv #itemDetailPage .detailPagePrimaryContainer {
     display: block !important;
@@ -785,6 +797,11 @@ body:has(#itemDetailPage:not(.hide)) .backgroundContainer.withBackdrop {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
 }
 
+#itemDetailPage .nameContainer > * {
+    text-align: left !important;
+    padding-left: 0 !important;
+}
+
 #itemDetailPage .parentName,
 #itemDetailPage .itemName.parentNameLast + .itemName,
 #itemDetailPage .nameContainer .itemName:not(:last-child) {
@@ -793,27 +810,30 @@ body:has(#itemDetailPage:not(.hide)) .backgroundContainer.withBackdrop {
     color: var(--nf-text);
 }
 
-/* Title logo, when the library has one, replaces the text title. */
-.layout-desktop #itemDetailPage .detailLogo:not(.hide),
-.layout-tv #itemDetailPage .detailLogo:not(.hide) {
-    position: absolute;
-    top: calc(min(56.25vw, 82vh) * 0.2);
-    left: var(--nf-edge);
-    right: auto;
-    width: 32vw;
-    height: calc(min(56.25vw, 82vh) * 0.28);
-    background-position: left bottom !important;
-    background-size: contain !important;
-    z-index: 2;
-}
+/* Title logo, when the library has one, replaces the text title.
+   Jellyfin only shows the logo on desktop layouts wider than 68.75em. */
+@media (min-width: 68.75em) {
+    .layout-desktop #itemDetailPage .detailLogo:not(.hide) {
+        position: absolute;
+        top: calc(min(56.25vw, 82vh) * 0.2);
+        left: var(--nf-edge);
+        right: auto;
+        width: 32vw;
+        height: calc(min(56.25vw, 82vh) * 0.28);
+        background-position: left bottom !important;
+        background-size: contain !important;
+        z-index: 2;
+    }
 
-.layout-desktop #itemDetailPage:has(.detailLogo:not(.hide)) .nameContainer .itemName:last-child,
-.layout-tv #itemDetailPage:has(.detailLogo:not(.hide)) .nameContainer .itemName:last-child {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
+    /* The logo is the series or movie title, so hide that line and keep
+       season and episode names. */
+    .layout-desktop #itemDetailPage:has(.detailLogo:not(.hide)) .nameContainer > :first-child {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
 }
 
 #itemDetailPage .itemMiscInfo {
@@ -1007,6 +1027,13 @@ body:has(#itemDetailPage:not(.hide)) .backgroundContainer.withBackdrop {
 .layout-tv #itemDetailPage .detailSection > .itemDetailsGroup {
     flex: 1 1 0;
     order: 2;
+}
+
+@media (max-width: 68.75em) {
+    .layout-desktop #itemDetailPage .detailSection > .detailSectionContent,
+    .layout-desktop #itemDetailPage .detailSection > .itemDetailsGroup {
+        flex: 0 0 100%;
+    }
 }
 
 #itemDetailPage .overview,
@@ -1553,9 +1580,65 @@ body:has(#loginPage:not(.hide)) header.MuiAppBar-root a[href="#/"]::after {
     background: linear-gradient(0deg, #141414 0%, rgba(20, 20, 20, 0) 50%);
 }
 
+/* Phone title pages: billboard on top, then a left-aligned title, a full
+   width Play button and the round buttons, like the Netflix app. */
+.layout-mobile #itemDetailPage .itemBackdrop:not([style*="url"]) {
+    height: 1em !important;
+}
+
+.layout-mobile #itemDetailPage .detailPagePrimaryContainer {
+    padding: 0 var(--nf-edge) !important;
+}
+
+.layout-mobile #itemDetailPage .detailRibbon {
+    position: relative;
+    z-index: 2;
+    margin-top: -2.5em !important;
+    align-items: stretch;
+}
+
+.layout-mobile #itemDetailPage .infoWrapper {
+    width: 100%;
+    padding-left: 0 !important;
+}
+
+.layout-mobile #itemDetailPage .infoWrapper > .detailImageContainer {
+    display: none !important;
+}
+
+.layout-mobile #itemDetailPage .nameContainer {
+    align-items: flex-start;
+}
+
+.layout-mobile #itemDetailPage .nameContainer .itemName {
+    font-size: 1.9rem !important;
+}
+
+.layout-mobile #itemDetailPage .mainDetailButtons {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start !important;
+    gap: 0.6em;
+    margin: 0.4em 0 0 !important;
+}
+
+.layout-mobile #itemDetailPage .mainDetailButtons > .detailButton {
+    margin: 0 !important;
+}
+
 .layout-mobile #itemDetailPage .btnPlay {
+    flex: 0 0 100%;
     width: 100% !important;
     justify-content: center;
+}
+
+.layout-mobile #itemDetailPage .detailPagePrimaryContent {
+    margin-top: 0.5em !important;
+    padding: 0 !important;
+}
+
+.layout-mobile #itemDetailPage .listItem {
+    padding: 1.2em 0 !important;
 }
 
 .layout-mobile #loginPage form,
